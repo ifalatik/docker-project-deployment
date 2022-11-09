@@ -1,0 +1,67 @@
+{% set single_value_vars = ['image', 'platform', 'container_name', 'privileged', 'init', 'command', 'mem_limit',
+                            'network_mode', 'entrypoint', 'stop_grace_period', 'stop_signal', 'runtime', 'scale',
+                            'restart']
+                            %}
+{% set list_vars = ['networks', 'depends_on', 'dns', 'dns_opt', 'dns_search', 'environment', 'env_file', 'expose',
+                    'ports', 'devices', 'labels', 'volumes', 'sysctls']
+                    %}
+version: {{ current_project.value.docker_compose_file_version if current_project.value.docker_compose_file_version is defined and current_project.value.docker_compose_file_version is not none else '2' }}
+
+services:
+{% for name, current_service in current_project.value.services.items() %}
+  {{ name }}:
+{% for variable in single_value_vars %}
+{% if current_service[ variable ] is defined and current_service[ variable ] is not none %}
+    {{ variable }}: {{ current_service[ variable ] }}
+{% endif %}
+{% endfor %}
+{% for variable in list_vars %}
+{% if current_service[ variable ] is defined and current_service[ variable ] | length > 0 %}
+    {{ variable }}:
+{% for item_ in current_service[ variable ] %}
+      - {{ item_ }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% if current_service.healthcheck is defined %}
+    healthcheck:
+      test: {{ current_service.healthcheck.test }}
+{% if current_service.healthcheck.interval is defined and current_service.healthcheck.interval is not none %}
+      interval: {{ current_service.healthcheck.interval }}
+{% endif %}
+{% if current_service.healthcheck.timeout is defined and current_service.healthcheck.timeout is not none %}
+      timeout: {{ current_service.healthcheck.timeout }}
+{% endif %}
+{% if current_service.healthcheck.retries is defined and current_service.healthcheck.retries is not none %}
+      retries: {{ current_service.healthcheck.retries }}
+{% endif %}
+{% if current_service.healthcheck.start_period is defined and current_service.healthcheck.start_period is not none %}
+      start_period: {{ current_service.healthcheck.start_period }}
+{% endif %}
+{% endif %}
+{% if current_service.logging is defined %}
+    logging:
+      driver: {{ current_service.logging.driver }}
+{% if current_service.logging.options is defined and current_service.logging.options is not none %}
+      options:
+{% for key, value in current_service.logging.options.items() %}
+        {{ key }}: "{{ value }}"
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% if current_project.value.external_networks is defined and current_project.value.external_networks | length > 0 %}
+
+networks:
+{% for external_network in current_project.value.external_networks %}
+  {{ external_network }}:
+    external: true
+{% endfor %}
+{% endif %}
+
+{% if docker_volumes is defined and docker_volumes | length > 0 %}
+volumes:
+{%  for docker_volume in docker_volumes %}
+  {{ docker_volume }}:
+{% endfor %}
+{% endif %}

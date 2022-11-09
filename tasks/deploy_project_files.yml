@@ -1,0 +1,51 @@
+---
+
+- name: "Get host-specific files-directory for {{ project_name }}"
+  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/host_files/' + inventory_hostname + '/' +  project_name }}"
+  register: host_files_dir
+
+- name: "Get files-directory for {{ project_name }}"
+  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/' +  project_name }}"
+  register: files_dir
+
+- name: "Deploy files-directory for {{ project_name }}"
+  ansible.builtin.include_tasks: "deploy_directory.yml"
+  vars:
+    directory: "{{ files_dir }}"
+    file_type: 'file'
+  when: files_dir.stat.isdir is defined and files_dir.stat.isdir
+
+- name: "Get templates-directory for {{ project_name }}"
+  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/templates/' +  project_name }}"
+  register: templates_dir
+
+- name: "Deploy templates-directory for {{ project_name }}"
+  ansible.builtin.include_tasks: "deploy_directory.yml"
+  vars:
+    directory: "{{ templates_dir }}"
+    file_type: 'template'
+  when: templates_dir.stat.isdir is defined and templates_dir.stat.isdir
+
+- name: "Build and copy docker-compose.yml for {{ project_name }}"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ project_dir + '/docker-compose.yml'}}"
+    mode: "{{ docker_file_mode }}"
+    owner: "{{ docker_owner }}"
+    group: "{{ docker_group }}"
+    lstrip_blocks: yes
+  notify: ["Restart project"]
+
+- name: "Ensure docker-compose.yaml doesn't exists for {{ project_name }}"
+  ansible.builtin.file:
+    path: "{{ project_dir + '/docker-compose.yaml' }}"
+    state: "absent"
+
+- name: "Deploy host-specific files for {{ project_name }}"
+  ansible.builtin.include_tasks: "deploy_directory.yml"
+  vars:
+    directory: "{{ host_files_dir }}"
+    file_type: 'host_file'
+  when: host_files_dir.stat.isdir is defined and host_files_dir.stat.isdir
+
+...

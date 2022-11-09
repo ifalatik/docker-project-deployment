@@ -1,0 +1,15 @@
+---
+
+# This loops over all projects defined in the docker_projects variable.
+# Every project is handed to the deploy_project tasks-file,
+# which deploys, updates and, if necessary, restarts the project
+- name: Install all projects in docker_projects
+  ansible.builtin.include_tasks:
+    role: docker_project_deployment
+  vars:
+    current_project: "{{ project }}"
+  with_dict: "{{ docker_projects }}"
+  loop_control:
+    loop_var: "project"
+
+...

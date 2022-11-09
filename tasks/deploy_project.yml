@@ -1,0 +1,63 @@
+---
+
+# required for correct handler functionality
+# if the handler uses 'project.key' as the project-dictionary is being looped over,
+# the variable might be overwritten with the next project, therefore restarting the wrong project
+- name: "Set project name as variable"
+  ansible.builtin.set_fact:
+    project_name: "{{ project.key }}"
+
+- name: "Define project directory variable"
+  ansible.builtin.set_fact:
+    project_dir: "{{ docker_project_base_path }}/{{ project_name }}"
+
+- name: "Set regex secret paths variable"
+  ansible.builtin.set_fact:
+    regex_secret_remote_paths: "{{ project.value.regex_secret_remote_paths + ['.*/\\..*'] if project.value.regex_secret_remote_paths is defined else ['.*/\\..*'] }}"
+    # treats everything starting with a '.' as secret
+
+- name: "Stop Playbook if no service in project"
+  ansible.builtin.fail:
+    msg: "No services to be deployed for project: {{ project_name }}"
+  when: project.value.services | length == 0
+
+- name: Create project directory
+  ansible.builtin.file:
+    path: "{{ project_dir }}"
+    state: "directory"
+    mode: "{{ docker_directory_mode if not \
+      project_dir | any_regex_matches(regex_secret_remote_paths) \
+      else docker_secret_directory_mode }}"
+    owner: "{{ docker_owner }}"
+    group: "{{ docker_group }}"
+
+- name: Ensure external networks exist
+  community.docker.docker_network:
+    name: "{{ network }}"
+    state: present
+  with_list: "{{ project.value.external_networks }}"
+  loop_control:
+    loop_var: network
+  register: "docker_network_out"
+  when: "not ansible_check_mode and project.value.external_networks is defined"
+
+- name: Clear collected docker-volumes
+  ansible.builtin.set_fact:
+    project_docker_volumes: []
+
+- name: "Collect docker-volumes for project {{ project_name }}"
+  ansible.builtin.set_fact:
+    project_docker_volumes: "{{ (( project_docker_volumes ) + ( service.value.volumes | default([]) | non_local_paths )) | unique }}"
+  with_dict: "{{ project.value.services }}"
+  loop_control:
+    loop_var: service
+
+- name: Deploy project files
+  ansible.builtin.import_tasks: deploy_project_files.yml
+  vars:
+    docker_volumes: "{{ project_docker_volumes }}"
+
+- name: "Restart project if it was updated"
+  ansible.builtin.meta: "flush_handlers"
+
+...

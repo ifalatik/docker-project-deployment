@@ -1,0 +1,80 @@
+---
+
+docker_compose_command: "docker-compose"
+
+docker_project_base_path: "/opt/docker_projects"
+
+docker_file_mode: "0664"
+docker_directory_mode: "0775"
+docker_secret_file_mode: "0660"
+docker_secret_directory_mode: "0770"
+
+docker_owner: "{{ ansible_user }}"
+docker_group: "{{ ansible_user }}"
+
+docker_projects:
+  # <name1>: - this will determine the directory name
+  #   services: - multiple services in one docker-compose file
+  #     <service1>:
+  #       image:
+  #       platform:
+  #       container_name:
+  #       privileged:
+  #       init:
+  #       command:
+  #       mem_limit:
+  #       network_mode:
+  #       entrypoint:
+  #       stop_grace_period:
+  #       stop_signal:
+  #       runtime:
+  #       scale:
+  #       restart:
+  #       networks:
+  #         - ...
+  #       depends_on:
+  #         - ...
+  #       dns:
+  #         - ...
+  #       dns_opt:
+  #         - ...
+  #       dns_search:
+  #         - ...
+  #       environment:
+  #         - ...
+  #       env_file:
+  #         - ...
+  #       expose:
+  #         - ...
+  #       ports:
+  #         - ...
+  #       devices:
+  #         - ...
+  #       labels:
+  #         - ...
+  #       volumes:
+  #         - ...
+  #       sysctls:
+  #         - ...
+  #       healthcheck:
+  #         test:
+  #         interval:
+  #         timeout:
+  #         timeout:
+  #         retries:
+  #         start_period:
+  #       logging:
+  #         driver:
+  #         <key>: <value>
+  #     <service2>:
+  #       ...
+  #   external_networks: - docker networks that are should exists independently (external). Currently the only type of network supported.
+  #     - <network>
+  #     - ...
+  #   regex_secret_remote_paths: - any path to file or directory on the remote host matching one of these regexes will be pushed with their respective 'secret_mode'
+  #     - <regex>
+  #     - ...
+  # <name2>:
+  #   ...
+
+...
