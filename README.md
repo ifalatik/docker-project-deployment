@@ -99,7 +99,7 @@ A list of other roles hosted on Galaxy should go here
 
 Example Playbook
 ----------------
-Example deployment of traefik.
+Example deployment of [traefik](https://github.com/traefik/traefik-library-image).
 
 This would require for the files `traefik.yml`, `dynamic_conf.yml` and the directory `certs`, including a certificate for SSL to exists under this playbook's base directory + `/docker-project-deployment/` + (`traefik/` || `host_files/{{ inventory_hostname }}/traefik/` || `templates/traefik/`).
 
