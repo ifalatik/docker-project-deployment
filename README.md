@@ -103,8 +103,8 @@ Example deployment of traefik.
 
 This would require for the files `traefik.yml`, `dynamic_conf.yml` and the directory `certs`, including a certificate for SSL to exists under this playbook's base directory + `/docker-project-deployment/` + (`traefik/` || `host_files/{{ inventory_hostname }}/traefik/` || `templates/traefik/`).
 
-´´´yaml
-- hosts: 
+```yaml
+- hosts: all
 
   vars:
     docker_projects:
@@ -157,7 +157,7 @@ This would require for the files `traefik.yml`, `dynamic_conf.yml` and the direc
 
   roles:
       - docker-project-deployment
-´´´
+```
 
 License
 -------
