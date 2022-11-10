@@ -11,7 +11,7 @@ Requirements
 Role Variables
 --------------
 
-The default version of docker-compsose files. Can be overridden on a per project basis.
+The default version of docker-compose files. Can be overridden on a per project basis.
 
     docker_compose_file_version: "2"
 
