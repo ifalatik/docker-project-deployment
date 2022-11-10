@@ -109,16 +109,16 @@ Subdirectories will also be deployed to the host(s). e.g.:
 | playbook.yml
 |
 └───docker-project-deployment
-|    └───files
-|        └───project1
-|             └─── dir1
-|                   | file1
+|   └───files
+|       └───project1
+|           └─── dir1
+|                | file1
 └───group_vars
-|    | ...
+|   | ...
 └───host_vars
-|    | ...
+|   | ...
 └─── roles
-|    | ...
+|   | ...
 ```
 will lead to `{{ docker_project_base_path }}/project1/dir1/file1` on the host.
 
