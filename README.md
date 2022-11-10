@@ -112,51 +112,52 @@ This would require for the files `traefik.yml`, `dynamic_conf.yml` and the direc
   vars:
     docker_projects:
       traefik:
+        docker_compose_file_version: "2.1"
         services:
-      docker-proxy:
-        image: "tecnativa/docker-socket-proxy"
-        container_name: "docker-proxy"
-        privileged: true
-        networks: ["docker-proxy"]
-        mem_limit: "128m"
-        environment: ["CONTAINERS=1"]
-        volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-        healthcheck:
-          test: "wget --quiet -O/dev/null http://localhost:2375/containers/json?limit=1"
-          interval: "10s"
-          timeout: "3s"
-          retries: 10
-        restart: unless-stopped
-      traefik:
-        image: "traefik"
-        container_name: "traefik"
-        command: "-c /etc/traefik/traefik.yml"
-        networks: ["traefik", "docker-proxy"]
-        depends_on: ["docker-proxy"]
-        volumes:
-          - "/etc/timezone:/etc/timezone"
-          - "/etc/localtime:/etc/localtime"
-          - "./traefik.yml:/etc/traefik/traefik.yml"
-          - "./dynamic_conf.yml:/etc/traefik/dynamic_conf.yml"
-          - "./certs:/certs:ro"
-        labels:
-          - "traefik.enable=true"
-          - "traefik.http.routers.dashboard.rule=Host(`{{ ansible_host) }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
-          - "traefik.http.routers.dashboard.service=api@internal"
-          - "traefik.http.routers.dashboard.entrypoints=web,websecure"
-          - "traefik.http.routers.dashboard.tls=true"
-        ports:
-          - "80:80"
-          - "443:443"
-        logging:
-          driver: "json-file"
-          options:
-            max-size: "100m"
-            max-file: "3"
-        restart: unless-stopped
-    external_networks: ["traefik", "docker-proxy"]
-    regex_secret_remote_paths:
-      - '.*/certs.*'
+          docker-proxy:
+            image: "tecnativa/docker-socket-proxy"
+            container_name: "docker-proxy"
+            privileged: true
+            networks: ["docker-proxy"]
+            mem_limit: "128m"
+            environment: ["CONTAINERS=1"]
+            volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+            healthcheck:
+              test: "wget --quiet -O/dev/null http://localhost:2375/containers/json?limit=1"
+              interval: "10s"
+              timeout: "3s"
+              retries: 10
+            restart: unless-stopped
+          traefik:
+            image: "traefik"
+            container_name: "traefik"
+            command: "-c /etc/traefik/traefik.yml"
+            networks: ["traefik", "docker-proxy"]
+            depends_on: ["docker-proxy"]
+            volumes:
+              - "/etc/timezone:/etc/timezone"
+              - "/etc/localtime:/etc/localtime"
+              - "./traefik.yml:/etc/traefik/traefik.yml"
+              - "./dynamic_conf.yml:/etc/traefik/dynamic_conf.yml"
+              - "./certs:/certs:ro"
+            labels:
+              - "traefik.enable=true"
+              - "traefik.http.routers.dashboard.rule=Host(`{{ ansible_host) }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+              - "traefik.http.routers.dashboard.service=api@internal"
+              - "traefik.http.routers.dashboard.entrypoints=web,websecure"
+              - "traefik.http.routers.dashboard.tls=true"
+            ports:
+              - "80:80"
+              - "443:443"
+            logging:
+              driver: "json-file"
+              options:
+                max-size: "100m"
+                max-file: "3"
+            restart: unless-stopped
+        external_networks: ["traefik", "docker-proxy"]
+        regex_secret_remote_paths:
+          - '.*/certs.*'
 
   roles:
       - docker-project-deployment
