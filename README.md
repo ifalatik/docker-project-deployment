@@ -11,6 +11,10 @@ Requirements
 Role Variables
 --------------
 
+The default version of docker-compsose files. Can be overridden on a per project basis.
+
+    docker_compose_file_version: "2"
+
 The command to use to start and stop the containers via docker-compose
 
     docker_compose_command: "docker-compose"
@@ -33,6 +37,7 @@ The docker projects to be deployed:
 
     docker_projects:
       project1:
+        docker_compose_file_version: 
         services:
           service1:
             key: value

@@ -1,5 +1,6 @@
 ---
 
+docker_compose_file_version: "2"
 docker_compose_command: "docker-compose"
 
 docker_project_base_path: "/opt/docker_projects"
@@ -14,6 +15,7 @@ docker_group: "{{ ansible_user }}"
 
 docker_projects:
   # <name1>: - this will determine the directory name
+  #   docker_compose_file_version: 
   #   services: - multiple services in one docker-compose file
   #     <service1>:
   #       image:
