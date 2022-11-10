@@ -5,7 +5,7 @@
   register: host_files_dir
 
 - name: "Get files-directory for {{ project_name }}"
-  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/' +  project_name }}"
+  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/files/' +  project_name }}"
   register: files_dir
 
 - name: "Deploy files-directory for {{ project_name }}"
