@@ -1,11 +1,11 @@
 ---
 
 - name: "Get host-specific files-directory for {{ project_name }}"
-  local_action: ansible.builtin.stat path="{{ playbook_dir + '/host_vars/' + inventory_hostname + '/docker-project-deployment/' +  project_name }}"
+  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/host_files/' + inventory_hostname + '/' + project_name }}"
   register: host_files_dir
 
 - name: "Get files-directory for {{ project_name }}"
-  local_action: ansible.builtin.stat path="{{ playbook_dir + '/group_vars/all/docker-project-deployment/files/' +  project_name }}"
+  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/files/' +  project_name }}"
   register: files_dir
 
 - name: "Deploy files-directory for {{ project_name }}"
@@ -16,7 +16,7 @@
   when: files_dir.stat.isdir is defined and files_dir.stat.isdir
 
 - name: "Get templates-directory for {{ project_name }}"
-  local_action: ansible.builtin.stat path="{{ playbook_dir + '/group_vars/all/docker-project-deployment/templates/' +  project_name }}"
+  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/templates/' +  project_name }}"
   register: templates_dir
 
 - name: "Deploy templates-directory for {{ project_name }}"

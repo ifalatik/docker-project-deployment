@@ -101,7 +101,7 @@ Example Playbook
 ----------------
 Example deployment of [traefik](https://github.com/traefik/traefik-library-image).
 
-This would require for the files `traefik.yml`, `dynamic_conf.yml` and the directory `certs`, including a certificate for SSL to exists under this playbook's base directory + `/group_vars/all/docker-project-deployment/` + (`files/traefik/` || `templates/traefik/`) or `/host_vars/{{ inventory_hostname }}/docker-project-deployment/traefik/`.
+This would require for the files `traefik.yml`, `dynamic_conf.yml` and the directory `certs`, including a certificate for SSL to exists under this playbook's base directory + `/docker-project-deployment/` + (`files/traefik/` || `templates/traefik/` || `host_files/{{ inventory_hostname }}/traefik/`).
 
 ```yaml
 - hosts: all
