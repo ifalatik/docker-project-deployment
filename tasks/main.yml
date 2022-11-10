@@ -4,8 +4,7 @@
 # Every project is handed to the deploy_project tasks-file,
 # which deploys, updates and, if necessary, restarts the project
 - name: Install all projects in docker_projects
-  ansible.builtin.include_tasks:
-    role: docker_project_deployment
+  ansible.builtin.include_tasks: "deploy_project.yml"
   vars:
     current_project: "{{ project }}"
   with_dict: "{{ docker_projects }}"
