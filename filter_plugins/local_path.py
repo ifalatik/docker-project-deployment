@@ -4,7 +4,7 @@ class FilterModule:
     def filters(self):
         return {'non_local_paths': self.non_local_paths}
 
-    def non_local_paths(self, paths) -> list[str]:
+    def non_local_paths(self, paths):
         """
         Returns all paths from a docker-paths list that refer to docker-volumes instead of local paths
         """
