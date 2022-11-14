@@ -13,7 +13,8 @@
 
 - name: "Set regex secret paths variable"
   ansible.builtin.set_fact:
-    regex_secret_remote_paths: "{{ project.value.regex_secret_remote_paths + ['.*/\\..*'] if project.value.regex_secret_remote_paths is defined else ['.*/\\..*'] }}"
+    regex_secret_remote_paths: "{{ project.value.regex_secret_remote_paths + ['.*/\\..*'] \
+      if project.value.regex_secret_remote_paths is defined else ['.*/\\..*'] }}"
     # treats everything starting with a '.' as secret
 
 - name: "Stop Playbook if no service in project"
@@ -47,7 +48,7 @@
 
 - name: "Collect docker-volumes for project {{ project_name }}"
   ansible.builtin.set_fact:
-    project_docker_volumes: "{{ (( project_docker_volumes ) + ( service.value.volumes | default([]) | non_local_paths )) | unique }}"
+    project_docker_volumes: "{{ ((project_docker_volumes) + (service.value.volumes | default([]) | non_local_paths)) | unique }}"
   with_dict: "{{ project.value.services }}"
   loop_control:
     loop_var: service

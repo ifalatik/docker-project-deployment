@@ -1,11 +1,15 @@
 ---
 
 - name: "Get host-specific files-directory for {{ project_name }}"
-  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/host_files/' + inventory_hostname + '/' + project_name }}"
+  ansible.builtin.stat:
+    path: "{{ playbook_dir + '/docker-project-deployment/host_files/' + inventory_hostname + '/' + project_name }}"
+  delegate_to: "localhost"
   register: host_files_dir
 
 - name: "Get files-directory for {{ project_name }}"
-  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/files/' +  project_name }}"
+  ansible.builtin.stat:
+    path: "{{ playbook_dir + '/docker-project-deployment/files/' + project_name }}"
+  delegate_to: "localhost"
   register: files_dir
 
 - name: "Deploy files-directory for {{ project_name }}"
@@ -16,7 +20,8 @@
   when: files_dir.stat.isdir is defined and files_dir.stat.isdir
 
 - name: "Get templates-directory for {{ project_name }}"
-  local_action: ansible.builtin.stat path="{{ playbook_dir + '/docker-project-deployment/templates/' +  project_name }}"
+  ansible.builtin.stat:
+    path: "{{ playbook_dir + '/docker-project-deployment/templates/' + project_name }}"
   register: templates_dir
 
 - name: "Deploy templates-directory for {{ project_name }}"
@@ -29,11 +34,11 @@
 - name: "Build and copy docker-compose.yml for {{ project_name }}"
   ansible.builtin.template:
     src: "docker-compose.yml.j2"
-    dest: "{{ project_dir + '/docker-compose.yml'}}"
+    dest: "{{ project_dir + '/docker-compose.yml' }}"
     mode: "{{ docker_file_mode }}"
     owner: "{{ docker_owner }}"
     group: "{{ docker_group }}"
-    lstrip_blocks: yes
+    lstrip_blocks: true
   notify: ["Restart project"]
 
 - name: "Ensure docker-compose.yaml doesn't exists for {{ project_name }}"

@@ -1,7 +1,9 @@
 ---
 
 - name: "Restart project"
-  ansible.builtin.shell: "{{ docker_compose_command }} -f {{ docker_project_base_path }}/{{ project_name }}/docker-compose.yml down && {{ docker_compose_command }} -f {{ docker_project_base_path }}/{{ project_name }}/docker-compose.yml up -d"
+  ansible.builtin.shell: |
+    {{ docker_compose_command }} -f {{ docker_project_base_path }}/{{ project_name }}/docker-compose.yml down \
+    && {{ docker_compose_command }} -f {{ docker_project_base_path }}/{{ project_name }}/docker-compose.yml up -d
   register: output
 
 ...

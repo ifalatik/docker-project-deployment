@@ -1,6 +1,7 @@
 galaxy_info:
   author: Ian Falatik
   role_name: docker_project_deployment
+  namespace: ifalatik
   description: Deploy docker projects via docker-compose
   company: Setlog GmbH
 
@@ -26,17 +27,19 @@ galaxy_info:
   # To view available platforms and versions (or releases), visit:
   # https://galaxy.ansible.com/api/v1/platforms/
   #
-  # platforms:
-  # - name: Fedora
-  #   versions:
-  #   - all
-  #   - 25
-  # - name: SomePlatform
-  #   versions:
-  #   - all
-  #   - 1.0
-  #   - 7
-  #   - 99.99
+  platforms:
+    - name: Fedora
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+        - jammy
 
   galaxy_tags:
     - "docker"

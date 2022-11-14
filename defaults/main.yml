@@ -15,7 +15,7 @@ docker_group: "{{ ansible_user }}"
 
 docker_projects:
   # <name1>: - this will determine the directory name
-  #   docker_compose_file_version: 
+  #   docker_compose_file_version:
   #   services: - multiple services in one docker-compose file
   #     <service1>:
   #       image:
@@ -73,7 +73,7 @@ docker_projects:
   #   external_networks: - docker networks that are should exists independently (external). Currently the only type of network supported.
   #     - <network>
   #     - ...
-  #   regex_secret_remote_paths: - any path to file or directory on the remote host matching one of these regexes will be pushed with their respective 'secret_mode'
+  #   regex_secret_remote_paths: - any path to file or directory on remote matching one of these regexes will be pushed with their respective 'secret_mode'
   #     - <regex>
   #     - ...
   # <name2>:

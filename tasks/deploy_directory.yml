@@ -1,18 +1,18 @@
 ---
 
 - name: "Collect subdirectories for {{ project_name }}"
-  local_action:
-    module: ansible.builtin.find
+  ansible.builtin.find:
     paths: "{{ directory.stat.path }}/"
-    recurse: yes
+    recurse: true
     file_type: "directory"
+  delegate_to: "localhost"
   register: files_subdirs
 
 - name: "Deploy subdirectories for {{ project_name }}"
   ansible.builtin.file:
-    path: "{{ project_dir + '/' + file.path.split( project_name + '/' )[1:] | join( project_name + '/' ) }}"
+    path: "{{ project_dir + '/' + file.path.split(project_name + '/')[1:] | join(project_name + '/') }}"
     mode: "{{ docker_directory_mode if not \
-      (project_dir + '/' + file.path.split( project_name + '/' )[1:] | join( project_name + '/' )) | any_regex_matches(regex_secret_remote_paths) \
+      (project_dir + '/' + file.path.split(project_name + '/')[1:] | join(project_name + '/')) | any_regex_matches(regex_secret_remote_paths) \
       else docker_secret_directory_mode }}"
     owner: "{{ docker_owner }}"
     group: "{{ docker_group }}"
@@ -23,12 +23,12 @@
   notify: ["Restart project"]
 
 - name: "Collect all files in directory"
-  local_action:
-    module: ansible.builtin.find
+  ansible.builtin.find:
     paths: "{{ directory.stat.path }}/"
-    recurse: yes
+    recurse: true
     file_type: "file"
-    hidden: yes
+    hidden: true
+  delegate_to: "localhost"
   register: directory_files
 
 - name: "Deploy files or templates for {{ project_name }}"
