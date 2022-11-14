@@ -1,5 +1,6 @@
 galaxy_info:
   author: Ian Falatik
+  role_name: docker_project_deployment
   description: Deploy docker projects via docker-compose
   company: Setlog GmbH
 

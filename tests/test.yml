@@ -3,6 +3,6 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - docker-project-deployment
+    - docker_project_deployment
 
 ...

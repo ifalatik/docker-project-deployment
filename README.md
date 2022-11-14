@@ -191,7 +191,7 @@ This would require for the files `traefik.yml`, `dynamic_conf.yml` and the direc
           - '.*/certs.*'
 
   roles:
-      - docker-project-deployment
+      - docker_project_deployment
 ```
 
 License
