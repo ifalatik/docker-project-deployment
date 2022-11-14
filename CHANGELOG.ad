@@ -1,5 +1,8 @@
 = CHANGELOG
 
+== 1.1.0
+- add option to only deploy a subset of projects via `docker_projects_to_deploy` variable
+
 == 1.0.1
 - fix bug tracker URL
 
