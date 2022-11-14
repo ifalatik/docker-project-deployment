@@ -5,7 +5,7 @@ galaxy_info:
   description: Deploy docker projects via docker-compose
   company: Setlog GmbH
 
-  issue_tracker_url: https://github.com/iMSCORPiAN/ansible-docker-project-deployment/issues/tracker
+  issue_tracker_url: https://github.com/ifalatik/ansible-docker-project-deployment/issues/tracker
 
   # Choose a valid license ID from https://spdx.org - some suggested licenses:
   # - BSD-3-Clause (default)
