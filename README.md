@@ -35,6 +35,8 @@ Configure owner and access modes:
 
 The docker projects to be deployed:
 
+    docker_projects_to_deploy: ["project1"] (leave empty to deploy all )
+
     docker_projects:
       project1:
         docker_compose_file_version: 

@@ -13,6 +13,11 @@ docker_secret_directory_mode: "0770"
 docker_owner: "{{ ansible_user }}"
 docker_group: "{{ ansible_user }}"
 
+docker_projects_to_deploy: []
+# Put a list of projects that are supposed to be deployed.
+# Leave empty to deploy all
+# Make sure to also set the project information in the docker_projects variable.
+
 docker_projects:
   # <name1>: - this will determine the directory name
   #   docker_compose_file_version:
