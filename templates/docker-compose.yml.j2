@@ -23,7 +23,7 @@ services:
 {% endfor %}
 {% endif %}
 {% endfor %}
-{% if current_service.healthcheck is defined %}
+{% if current_service.healthcheck is defined and current_service.healthcheck is not none %}
     healthcheck:
       test: {{ current_service.healthcheck.test }}
 {% if current_service.healthcheck.interval is defined and current_service.healthcheck.interval is not none %}
