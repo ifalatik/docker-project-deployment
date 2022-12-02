@@ -22,6 +22,7 @@
 - name: "Get templates-directory for {{ project_name }}"
   ansible.builtin.stat:
     path: "{{ playbook_dir + '/docker-project-deployment/templates/' + project_name }}"
+  delegate_to: "localhost"
   register: templates_dir
 
 - name: "Deploy templates-directory for {{ project_name }}"
