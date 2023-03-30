@@ -20,6 +20,7 @@
       else docker_secret_file_mode }}"
     owner: "{{ docker_owner }}"
     group: "{{ docker_group }}"
+  diff: "{{ not remote_path | any_regex_matches(regex_secret_remote_paths) }}"
   when: file_type == 'host_file' or
     ( file_type == 'file' and not ( potential_host_file.stat.exists is defined and potential_host_file.stat.exists ) )
   notify: ["Restart project"]
@@ -33,6 +34,7 @@
       else docker_secret_file_mode }}"
     owner: "{{ docker_owner }}"
     group: "{{ docker_group }}"
+  diff: "{{ not remote_path | any_regex_matches(regex_secret_remote_paths) }}"
   when: file_type == 'template' and not ( potential_host_file.stat.exists is defined and potential_host_file.stat.exists )
   notify: ["Restart project"]
 
