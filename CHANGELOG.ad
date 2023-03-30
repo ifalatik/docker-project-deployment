@@ -1,5 +1,8 @@
 = CHANGELOG
 
+== 1.2.1
+- hide diff when remote_path matches secret path
+
 == 1.2.0
 - fix deployment of templates
 
