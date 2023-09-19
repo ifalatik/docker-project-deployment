@@ -1,6 +1,9 @@
 = CHANGELOG
 
 == 1.2.1
+- add extra_hosts list var to docker-compose.yml
+
+== 1.2.1
 - hide diff when remote_path matches secret path
 
 == 1.2.0

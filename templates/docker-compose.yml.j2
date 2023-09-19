@@ -3,7 +3,7 @@
                             'restart']
                             %}
 {% set list_vars = ['networks', 'depends_on', 'dns', 'dns_opt', 'dns_search', 'environment', 'env_file', 'expose',
-                    'ports', 'devices', 'labels', 'volumes', 'sysctls']
+                    'extra_hosts', 'ports', 'devices', 'labels', 'volumes', 'sysctls']
                     %}
 version: '{{ current_project.value.docker_compose_file_version if current_project.value.docker_compose_file_version is defined and current_project.value.docker_compose_file_version is not none else docker_compose_file_version }}'
 
