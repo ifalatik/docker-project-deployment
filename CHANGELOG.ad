@@ -1,5 +1,8 @@
 = CHANGELOG
 
+== 1.2.3
+- fix remote_path for files being wrong when `project_name/` was in the local path.
+
 == 1.2.2
 - add extra_hosts list var to docker-compose.yml
 

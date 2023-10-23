@@ -2,14 +2,14 @@
 
 - name: "Collect potential host-file"
   ansible.builtin.stat:
-    path: "{{ host_files_dir.stat.path + '/' + file.path.split(project_name + '/')[1:][0].split('.j2')[0] }}"
+    path: "{{ host_files_dir.stat.path + '/' + (file.path.split(project_name + '/')[1:] | join(project_name + '/')).split('.j2')[0] }}"
   delegate_to: "localhost"
   when: file_type != 'host_file' and host_files_dir.stat.isdir is defined and host_files_dir.stat.isdir
   register: potential_host_file
 
 - name: "Define remote path"
   ansible.builtin.set_fact:
-    remote_path: "{{ project_dir + '/' + file.path.split(project_name + '/')[1:][0].split('.j2')[0] }}"
+    remote_path: "{{ project_dir + '/' + (file.path.split(project_name + '/')[1:] | join(project_name + '/')).split('.j2')[0] }}"
 
 - name: "Copy file if no host_file exists or copy host_file"
   ansible.builtin.copy:
